@@ -1,5 +1,5 @@
 {
 	"title": "关于本站",
 	"description": "一个基于 Github 的现代化博客系统",
-	"content": "📦网站基于 Github 仓库完全存储，所有内容版本可控\n\n🚀无后端，无 serverless function，纯静态站点\n\n✏️文章通过可视化 UI 直接编辑并提交到 Github 仓库\n\n🔑所有用户都可以编辑，提交需要 Owner 的 Private Key\n\n## 技术栈\n\n- Next.js\n- React\n- TypeScript\n- Tailwind CSS\n- Motion\n- Github API\n\n原作者仓库：https://github.com/YYsuni/2025-blog-public"
+	"content": "📦网站基于 Github 仓库完全存储，所有内容版本可控\n\n🚀无后端，无 serverless function，纯静态站点\n\n✏️文章通过可视化 UI 直接编辑并提交到 Github 仓库\n\n🔑所有用户都可以编辑，提交需要 Owner 的 Private Key\n\n## 技术栈\n\n- Next.js\n- React\n- TypeScript\n- Tailwind CSS\n- Motion\n- Github API\n\n原作者仓库：https://github.com/YYsuni/2025-blog-public\n\n## 目前待办（无排序）\n\n- 使没有修改时就保存不进行提交，而不是空提交\n- 使页面组件更统一（如博客页面的一键删除和分类，可以统一至其他页面）\n- 优化右下角弹窗（默认展开最近五条信息）"
 }
