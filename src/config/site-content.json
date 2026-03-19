@@ -40,7 +40,15 @@
 		}
 	],
 	"currentBackgroundImageId": "",
-	"socialButtons": [],
+	"socialButtons": [
+		{
+			"id": "button-1773889725026",
+			"type": "github",
+			"value": "https://github.com/Qu1et-x",
+			"label": "Github",
+			"order": 1
+		}
+	],
 	"clockShowSeconds": false,
 	"summaryInContent": false,
 	"isCachePem": false,
