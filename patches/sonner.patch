@@ -1,0 +1,28 @@
+diff --git a/dist/index.js b/dist/index.js
+index bd21e898f431298b70e941833c78819a1eb53a36..7e4ef707071bf34d4308a94ad5b6e5f7ac07219d 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -592,8 +592,7 @@ const Toast = (props)=>{
+         const pauseTimer = ()=>{
+             if (lastCloseTimerStartTimeRef.current < closeTimerStartTimeRef.current) {
+                 // Get the elapsed time since the timer started
+-                const elapsedTime = new Date().getTime() - closeTimerStartTimeRef.current;
+-                remainingTime.current = remainingTime.current - elapsedTime;
++                remainingTime.current = duration;
+             }
+             lastCloseTimerStartTimeRef.current = new Date().getTime();
+         };
+diff --git a/dist/index.mjs b/dist/index.mjs
+index d0c7a5a1fa1ed8b19c27bea968bb404f2437a07e..1c4b0a0c0466e8bbd9f22412529da2b8cbd2fac2 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -585,8 +585,7 @@ const Toast = (props)=>{
+         const pauseTimer = ()=>{
+             if (lastCloseTimerStartTimeRef.current < closeTimerStartTimeRef.current) {
+                 // Get the elapsed time since the timer started
+-                const elapsedTime = new Date().getTime() - closeTimerStartTimeRef.current;
+-                remainingTime.current = remainingTime.current - elapsedTime;
++                remainingTime.current = duration;
+             }
+             lastCloseTimerStartTimeRef.current = new Date().getTime();
+         };

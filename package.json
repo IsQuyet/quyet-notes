@@ -48,5 +48,10 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "wrangler": "^4.53.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "sonner": "patches/sonner.patch"
+    }
   }
 }
