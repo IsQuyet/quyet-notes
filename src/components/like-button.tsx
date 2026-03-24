@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { motion, AnimatePresence } from 'motion/react'
 import { Heart } from 'lucide-react'
-import clsx from 'clsx'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import { BLOG_SLUG_KEY } from '@/consts'
@@ -86,7 +85,7 @@ export default function LikeButton({ slug = 'yysuni', delay, className }: LikeBu
 				whileTap={{ scale: 0.95 }}
 				aria-label='Like this post'
 				onClick={handleLike}
-				className={clsx('card heartbeat-container relative overflow-visible rounded-full p-3', className)}>
+				className={cn('card heartbeat-container relative overflow-visible rounded-full p-3', className)}>
 				<AnimatePresence>
 					{particles.map(particle => (
 						<motion.div
@@ -118,7 +117,7 @@ export default function LikeButton({ slug = 'yysuni', delay, className }: LikeBu
 					</motion.span>
 				)}
 				<motion.div animate={justLiked ? { scale: [1, 1.4, 1], rotate: [0, -10, 10, 0] } : {}} transition={{ duration: 0.6, ease: 'easeOut' }}>
-					<Heart className={clsx('heartbeat', liked ? 'fill-rose-400 text-rose-400' : 'fill-rose-200 text-rose-200')} size={28} />
+					<Heart className={cn('heartbeat', liked ? 'fill-rose-400 text-rose-400' : 'fill-rose-200 text-rose-200')} size={28} />
 				</motion.div>
 			</motion.button>
 		)

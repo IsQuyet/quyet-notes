@@ -10,7 +10,7 @@ import PlaySVG from '@/svgs/play.svg'
 import { HomeDraggableLayer } from '../app/(home)/home-draggable-layer'
 import { Pause } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import clsx from 'clsx'
+import { cn } from '@/lib/utils'
 
 const MUSIC_FILES = ['/music/close-to-you.mp3']
 
@@ -137,7 +137,7 @@ export default function MusicCard() {
 
 	return (
 		<HomeDraggableLayer cardKey='musicCard' x={x} y={y} width={styles.width} height={styles.height}>
-			<Card order={styles.order} width={styles.width} height={styles.height} x={x} y={y} className={clsx('flex items-center gap-3', !isHomePage && 'fixed')}>
+			<Card order={styles.order} width={styles.width} height={styles.height} x={x} y={y} className={cn('flex items-center gap-3', !isHomePage && 'fixed')}>
 				{siteContent.enableChristmas && (
 					<>
 						<img
