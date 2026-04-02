@@ -116,6 +116,7 @@ export default function NavCard() {
 	const [hoveredIndex, setHoveredIndex] = useState<number>(0)
 	const [miniHovered, setMiniHovered] = useState(false)
 	const [isHoveringNav, setIsHoveringNav] = useState(false)
+	const [mobileNavVisible, setMobileNavVisible] = useState(true)
 	const { siteContent, cardStyles } = useConfigStore()
 	const editing = useLayoutEditStore(state => state.editing)
 	const styles = cardStyles.navCard
@@ -153,12 +154,47 @@ export default function NavCard() {
 		}
 	}, [hoveredIndex, activeIndex, form, isHoveringNav])
 
+	useEffect(() => {
+		if (!maxSM) {
+			setMobileNavVisible(true)
+			return
+		}
+
+		let lastY = window.scrollY
+
+		const onScroll = () => {
+			const y = window.scrollY
+			const delta = y - lastY
+
+			if (y <= 40) {
+				setMobileNavVisible(true)
+			} else if (delta > 6) {
+				setMobileNavVisible(false)
+			} else if (delta < -6) {
+				setMobileNavVisible(true)
+			}
+
+			lastY = y
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true })
+		return () => window.removeEventListener('scroll', onScroll)
+	}, [maxSM])
+
 	return (
 		<BaseCard
 			cardKey='navCard'
 			width={size.width}
 			height={size.height}
-			className={cn(form !== 'full' && 'overflow-hidden', form === 'mini' && 'p-3', form === 'icons' && 'flex items-center gap-6 p-3')}>
+			className={cn(
+				form !== 'full' && 'overflow-hidden',
+				form === 'mini' && 'p-3',
+				form === 'icons' && 'flex items-center gap-6 p-3',
+				'max-sm:!fixed max-sm:!left-1/2 max-sm:!top-auto max-sm:z-50 max-sm:transition-[opacity,bottom] max-sm:duration-500 max-sm:ease-out',
+				mobileNavVisible
+					? 'max-sm:!opacity-100 max-sm:!pointer-events-auto max-sm:!scale-100 max-sm:!-translate-x-1/2 max-sm:!bottom-4'
+					: 'max-sm:!opacity-0 max-sm:!pointer-events-none max-sm:!scale-100 max-sm:!-translate-x-1/2 max-sm:!bottom-1'
+			)}>
 			{form === 'full' && siteContent.enableChristmas && (
 				<>
 					<img
