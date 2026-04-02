@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils'
 import { useSize } from '@/hooks/use-size'
 import { useConfigStore } from '@/app/(home)/stores/config-store'
 import { BaseCard } from '@/app/(home)/components/base-card'
+import { useLayoutEditStore } from '@/app/(home)/stores/layout-edit-store'
 
 const AvatarIcon = ({ className }: { className?: string }) => (
 	<Image
@@ -116,6 +117,7 @@ export default function NavCard() {
 	const [miniHovered, setMiniHovered] = useState(false)
 	const [isHoveringNav, setIsHoveringNav] = useState(false)
 	const { siteContent, cardStyles } = useConfigStore()
+	const editing = useLayoutEditStore(state => state.editing)
 	const styles = cardStyles.navCard
 
 	const activeIndex = useMemo(() => {
@@ -199,7 +201,7 @@ export default function NavCard() {
 									onMouseEnter={() => setHoveredIndex(index)}>
 									{isHovered && (
 										<motion.div
-											layoutId='nav-hover'
+											{...(editing ? { layout: false } : { layoutId: 'nav-hover' })}
 											className='absolute inset-0 rounded-full border'
 											initial={false}
 											transition={{

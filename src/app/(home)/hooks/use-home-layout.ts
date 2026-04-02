@@ -31,7 +31,7 @@ export function useHomeLayout() {
 		const styles = cardStyles
 		const res: Partial<Record<CardKey, CardLayout>> = {}
 
-		// Helper to get base layout info
+		// 辅助函数：获取基础布局信息
 		const getBase = (key: CardKey): CardLayout => {
 			const s = styles[key]
 			return {
@@ -44,7 +44,7 @@ export function useHomeLayout() {
 			}
 		}
 
-		// 1. HiCard (Center reference)
+		// 1. HiCard（以 center 为参考）
 		const hi = getBase('hiCard')
 		hi.x = styles.hiCard.offsetX !== null ? center.x + styles.hiCard.offsetX : center.x - hi.width / 2
 		hi.y = styles.hiCard.offsetY !== null ? center.y + styles.hiCard.offsetY : center.y - hi.height / 2
@@ -112,10 +112,10 @@ export function useHomeLayout() {
 			nav.x = styles.navCard.offsetX !== null ? center.x + styles.navCard.offsetX : hi.x - nav.width - CARD_SPACING
 			nav.y = styles.navCard.offsetY !== null ? center.y + styles.navCard.offsetY : hi.y + hi.height - nav.height
 		} else {
-			// In icons or mini mode, NavCard logic is more complex as its size changes
-			// For now we keep the base x/y as defined in NavCard.tsx
+			// 在 icons 或 mini 模式下，由于尺寸会变化，NavCard 的逻辑更复杂
+			// 暂时保留 NavCard.tsx 中定义的基础 x/y 计算
 			if (maxSM) {
-				const navWidth = isHomePage ? styles.navCard.width : 340 // Simplified for icons mode
+				const navWidth = isHomePage ? styles.navCard.width : 340 // 对 icons 模式进行简化处理
 				nav.x = center.x - navWidth / 2
 				nav.y = 16
 			} else {

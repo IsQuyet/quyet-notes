@@ -37,6 +37,24 @@ export function BaseCard({ cardKey, children, className, width: propWidth, heigh
 	const [show, setShow] = useState(false)
 	const isDragging = useRef(false)
 
+	// 追踪先前的编辑状态以检测进入/退出编辑模式的过渡
+	const prevEditingRef = useRef(editing)
+	const enteringEditing = editing && !prevEditingRef.current
+
+	useEffect(() => {
+		// 在渲染后更新 prevEditingRef 的值
+		prevEditingRef.current = editing
+	}, [editing])
+
+	// 构建 transition 对象并显式断言为 any，避免 TypeScript 类型不兼容
+	const transitionObj: any = (() => {
+		const base = { type: 'spring' as const, stiffness: 260, damping: 26, mass: 1.3 }
+		if (enteringEditing && !maxSM) {
+			return { ...base, x: { duration: 0 }, y: { duration: 0 } }
+		}
+		return base
+	})()
+
 	useEffect(() => {
 		if (show) return
 		if (!maxSM && x === 0 && y === 0) return
@@ -130,21 +148,38 @@ export function BaseCard({ cardKey, children, className, width: propWidth, heigh
 
 			{/* 2. 表现层（Content Layer）：带 Spring 动画追赶 Ghost Layer */}
 			<motion.div
+				key={String(maxSM)}
 				className={cn(
 					'card squircle absolute',
 					!editing && 'z-10',
 					editing && 'z-60 pointer-events-none', // 编辑模式下内容不可交互
 					className,
-					'max-sm:static max-sm:w-full'
+					'max-sm:static'
 				)}
-				initial={maxSM ? { opacity: 0, y: 20 } : { opacity: 0, scale: 0.6, left: x, top: y, width, height }}
-				animate={maxSM ? { opacity: 1, y: 0 } : { opacity: 1, scale: 1, left: x, top: y, width, height }}
-				transition={{
-					type: 'spring',
-					stiffness: 260,
-					damping: 26,
-					mass: 2 // 增加一点质量感
-				}}
+				// 编辑模式（且非小屏）需要动画 width/height/left/top 以支持拉伸与精确定位
+				// 非编辑模式优先使用 transform(x/y/scale) 做位移动画以减少回流
+				// 对于非编辑模式（desktop）我们使用 transform(x/y) 做位移动画，
+				// 因此需要把元素定位到 (0,0) 作为 transform 的基点；
+				// 编辑模式下直接通过 left/top/width/height 控制以支持拉伸动画。
+				style={
+					editing && !maxSM ? { left: x, top: y, width, height } : { width, height, left: 0, top: 0 }
+				}
+				initial={
+					editing && !maxSM
+						? { opacity: 0, scale: 0.6, left: x, top: y, width, height, x: 0, y: 0 }
+						: maxSM
+						? { opacity: 0, y: 20 }
+						: { opacity: 0, scale: 0.6, x, y }
+				}
+				animate={
+					editing && !maxSM
+						? { opacity: 1, scale: 1, left: x, top: y, width, height, x: 0, y: 0 }
+						: maxSM
+						? { opacity: 1, y: 0 }
+						: { opacity: 1, scale: 1, x, y }
+				}
+				// 动画过渡：默认使用 spring；当刚进入编辑模式时立刻把 transform(x/y) 清零（duration:0），避免 left/top 与 transform 同时生效导致双倍偏移
+				transition={transitionObj}
 				whileHover={!editing ? { scale: 1.02 } : undefined}
 				whileTap={!editing ? { scale: 0.98 } : undefined}
 			>
